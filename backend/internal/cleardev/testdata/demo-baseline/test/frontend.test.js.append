@@ -1,0 +1,48 @@
+
+
+test("baseline page loads contacts as text and reports a failed import without false success", async () => {
+  const { runInNewContext } = await import("node:vm");
+  const elements = {
+    "#status": { textContent: "" },
+    "#import-submit": { disabled: false },
+    "#emails": { value: "person@example.com" },
+    '[data-testid="accepted-count"]': { textContent: "0" },
+    '[data-testid="rejected-count"]': { textContent: "0" },
+    '[data-testid="duplicate-count"]': { textContent: "0" },
+  };
+  let listener;
+  let displayed = [];
+  let failImport = false;
+  elements["#import-form"] = { addEventListener: (_event, callback) => { listener = callback; } };
+  elements["#contacts"] = { replaceChildren: (...items) => { displayed = items; } };
+  const requests = [];
+  runInNewContext(fs.readFileSync("frontend/app.js", "utf8"), {
+    document: {
+      querySelector: (selector) => elements[selector] || null,
+      createElement: (tag) => {
+        assert.equal(tag, "li");
+        return { textContent: "" };
+      },
+    },
+    fetch: async (url, options) => {
+      requests.push(url);
+      if (url === "/api/contacts") return { ok: true, json: async () => ({ contacts: [{ email: "<b>literal text</b>" }] }) };
+      assert.equal(url, "/api/import");
+      assert.equal(options.method, "POST");
+      assert.deepEqual(JSON.parse(options.body), { emails: ["person@example.com"] });
+      return { ok: !failImport, status: failImport ? 500 : 200, json: async () => ({ accepted: 1, rejected: 0, duplicates: 0 }) };
+    },
+  });
+  await new Promise(setImmediate);
+  assert.deepEqual(displayed, [{ textContent: "<b>literal text</b>" }]);
+  await listener({ preventDefault() {} });
+  assert.equal(elements['[data-testid="accepted-count"]'].textContent, "1");
+  assert.equal(elements["#status"].textContent, "Import complete.");
+  assert.equal(elements["#import-submit"].disabled, false);
+  failImport = true;
+  await listener({ preventDefault() {} });
+  assert.equal(elements["#status"].textContent, "Import failed (500).");
+  assert.equal(elements["#import-submit"].disabled, false);
+  assert.equal(elements['[data-testid="accepted-count"]'].textContent, "1");
+  assert.deepEqual(requests, ["/api/contacts", "/api/import", "/api/contacts", "/api/import"]);
+});

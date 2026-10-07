@@ -1,0 +1,11 @@
+body {
+  font-family: sans-serif;
+  margin: 2rem;
+  max-width: 40rem;
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  margin: 0.5rem 0 1rem;
+}

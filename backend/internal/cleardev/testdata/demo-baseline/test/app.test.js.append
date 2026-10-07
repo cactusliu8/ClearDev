@@ -1,0 +1,94 @@
+
+
+test("healthy baseline serves explicit health, real contacts, and genuine 404s", async (t) => {
+  const { port, child } = await startApp("mail-baseline-health-");
+  t.after(() => stopApp(child));
+  const base = `http://127.0.0.1:${port}`;
+  const health = await fetch(`${base}/api/health`);
+  assert.equal(health.status, 200);
+  assert.match(health.headers.get("content-type"), /^application\/json/);
+  assert.deepEqual(await health.json(), { status: "ok", application: "complex-mail-app" });
+  const before = await fetch(`${base}/api/contacts`);
+  assert.equal(before.status, 200);
+  assert.deepEqual(await before.json(), { contacts: [] });
+  const importOnce = async () => {
+    const response = await fetch(`${base}/api/import`, {
+      method: "POST", headers: { "content-type": "application/json" },
+      body: JSON.stringify({ emails: [" First@Example.COM ", "first@example.com", "bad", "second@example.com"] }),
+    });
+    assert.equal(response.status, 200);
+    return response.json();
+  };
+  assert.deepEqual(await importOnce(), { accepted: 2, rejected: 1, duplicates: 1 });
+  assert.deepEqual(await importOnce(), { accepted: 0, rejected: 1, duplicates: 3 });
+  const after = await fetch(`${base}/api/contacts`);
+  assert.equal(after.status, 200);
+  assert.deepEqual((await after.json()).contacts.map((contact) => contact.email), ["first@example.com", "second@example.com"]);
+  for (const route of ["/missing", "/api/missing", "/frontend/missing.js", "/frontend/../package.json", "/frontend/%2e%2e%2fpackage.json", "/__proto__"]) {
+    const missing = await fetch(`${base}${route}`);
+    assert.equal(missing.status, 404, route);
+    assert.deepEqual(await missing.json(), { error: "not found" });
+  }
+  for (const [route, contentType] of [["/", "text/html"], ["/frontend/app.js", "text/javascript"], ["/frontend/app.css", "text/css"]]) {
+    const response = await fetch(`${base}${route}`);
+    assert.equal(response.status, 200, route);
+    assert.equal(response.headers.get("content-type").startsWith(contentType), true);
+    assert.notEqual((await response.text()).length, 0);
+  }
+});
+
+test("invalid imports fail without adding any contacts", async (t) => {
+  const { port, child } = await startApp("mail-baseline-invalid-");
+  t.after(() => stopApp(child));
+  const base = `http://127.0.0.1:${port}`;
+  const cases = [
+    ["{", "application/json", 400],
+    ["null", "application/json", 400],
+    ['{"emails":[123]}', "application/json", 400],
+    ['{"emails":"bad"}', "application/json", 400],
+    [JSON.stringify({ emails: Array(2001).fill("a@example.com") }), "application/json", 400],
+    [JSON.stringify({ emails: ["x".repeat(70_000)] }), "application/json", 413],
+    ['{"emails":[]}', "text/plain", 415],
+  ];
+  for (const [body, type, expected] of cases) {
+    const response = await fetch(`${base}/api/import`, { method: "POST", headers: { "content-type": type }, body });
+    assert.equal(response.status, expected);
+    assert.equal(typeof (await response.json()).error, "string");
+  }
+  assert.deepEqual(await (await fetch(`${base}/api/contacts`)).json(), { contacts: [] });
+});
+
+test("a new process reads persisted contacts from the same baseline database", async (t) => {
+  const { once } = await import("node:events");
+  const { spawn } = await import("node:child_process");
+  const { port, child, dbFile } = await startApp("mail-baseline-restart-");
+  t.after(() => stopApp(child));
+  const response = await fetch(`http://127.0.0.1:${port}/api/import`, {
+    method: "POST", headers: { "content-type": "application/json" },
+    body: JSON.stringify({ emails: ["persist@example.com"] }),
+  });
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), { accepted: 1, rejected: 0, duplicates: 0 });
+  const stopped = once(child, "exit");
+  stopApp(child);
+  await stopped;
+  const restarted = spawn(process.execPath, ["--experimental-sqlite", "--experimental-strip-types", "backend/src/server.ts"], {
+    env: { ...process.env, PORT: "0", MAIL_APP_DB: dbFile }, stdio: ["ignore", "pipe", "pipe"],
+  });
+  t.after(() => stopApp(restarted));
+  const address = await new Promise((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error("restart never listened")), 5000);
+    t.after(() => clearTimeout(timer));
+    let output = "";
+    restarted.once("error", reject);
+    restarted.once("exit", (code) => reject(new Error(`restart exited ${code}`)));
+    restarted.stdout.on("data", (chunk) => {
+      output += chunk.toString();
+      const match = output.match(/listening on (http:\/\/127\.0\.0\.1:\d+)/);
+      if (match) { clearTimeout(timer); resolve(match[1]); }
+    });
+  });
+  const contacts = await fetch(`${address}/api/contacts`);
+  assert.equal(contacts.status, 200);
+  assert.deepEqual((await contacts.json()).contacts.map((contact) => contact.email), ["persist@example.com"]);
+});

@@ -1,0 +1,8 @@
+{
+  "name": "cleardev-s02-fixture",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  }
+}

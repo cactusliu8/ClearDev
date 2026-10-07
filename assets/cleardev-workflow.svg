@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="820" viewBox="0 0 1600 820" role="img" aria-labelledby="title desc">
+  <title id="title">ClearDev 简化工作流程图</title>
+  <desc id="desc">用户需求经过 Steward、Planner、Builder、Reviewer，最终输出结果；评审失败时返回 Builder 返工或返回 Planner 重规划。</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="#2563eb"/>
+    </marker>
+    <style>
+      .title { font: 700 40px -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill:#111827; }
+      .subtitle { font: 400 22px -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill:#64748b; }
+      .role { font: 700 25px -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill:#0f3f7a; }
+      .roleSub { font: 600 18px -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill:#2563eb; }
+      .body { font: 400 18px -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill:#475569; }
+      .small { font: 600 17px -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill:#2563eb; }
+      .support { font: 600 18px -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill:#475569; }
+      .footer { font: 600 18px -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill:#475569; }
+      .box { fill:#ffffff; stroke:#3b82f6; stroke-width:2; rx:12; }
+      .supportBox { fill:#f8fafc; stroke:#cbd5e1; stroke-width:2; rx:10; }
+      .flow { fill:none; stroke:#2563eb; stroke-width:3; marker-end:url(#arrow); }
+      .dash { fill:none; stroke:#94a3b8; stroke-width:2; stroke-dasharray:8 7; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="820" fill="#ffffff"/>
+
+  <text x="800" y="60" text-anchor="middle" class="title">ClearDev 简化工作流程图</text>
+  <text x="800" y="100" text-anchor="middle" class="subtitle">以 Steward、Planner、Builder、Reviewer 为核心的需求执行闭环</text>
+
+  <text x="800" y="150" text-anchor="middle" class="small">Steward 持续协调状态推进</text>
+  <path d="M135 170 H1465" class="dash"/>
+  <path d="M135 170 V190 M1465 170 V190" class="dash"/>
+
+  <!-- Main flow boxes -->
+  <rect x="35" y="220" width="205" height="235" class="box"/>
+  <text x="138" y="267" text-anchor="middle" class="role">用户 / 需求</text>
+  <text x="138" y="325" text-anchor="middle" class="body">功能需求</text>
+  <text x="138" y="365" text-anchor="middle" class="body">缺陷修复</text>
+  <text x="138" y="405" text-anchor="middle" class="body">约束条件</text>
+
+  <rect x="300" y="220" width="215" height="235" class="box"/>
+  <text x="408" y="262" text-anchor="middle" class="role">Steward</text>
+  <text x="408" y="292" text-anchor="middle" class="roleSub">流程协调</text>
+  <line x1="330" y1="312" x2="485" y2="312" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="408" y="350" text-anchor="middle" class="body">接收需求</text>
+  <text x="408" y="390" text-anchor="middle" class="body">澄清范围</text>
+  <text x="408" y="430" text-anchor="middle" class="body">推进阶段</text>
+
+  <rect x="575" y="220" width="215" height="235" class="box"/>
+  <text x="683" y="262" text-anchor="middle" class="role">Planner</text>
+  <text x="683" y="292" text-anchor="middle" class="roleSub">计划制定</text>
+  <line x1="605" y1="312" x2="760" y2="312" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="683" y="350" text-anchor="middle" class="body">拆分任务</text>
+  <text x="683" y="390" text-anchor="middle" class="body">定义依赖</text>
+  <text x="683" y="430" text-anchor="middle" class="body">指定检查项</text>
+
+  <rect x="850" y="220" width="215" height="235" class="box"/>
+  <text x="958" y="262" text-anchor="middle" class="role">Builder</text>
+  <text x="958" y="292" text-anchor="middle" class="roleSub">实现执行</text>
+  <line x1="880" y1="312" x2="1035" y2="312" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="958" y="350" text-anchor="middle" class="body">修改代码</text>
+  <text x="958" y="390" text-anchor="middle" class="body">补充测试</text>
+  <text x="958" y="430" text-anchor="middle" class="body">产出候选结果</text>
+
+  <rect x="1125" y="220" width="215" height="235" class="box"/>
+  <text x="1233" y="262" text-anchor="middle" class="role">Reviewer</text>
+  <text x="1233" y="292" text-anchor="middle" class="roleSub">评审验证</text>
+  <line x1="1155" y1="312" x2="1310" y2="312" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="1233" y="350" text-anchor="middle" class="body">审查改动</text>
+  <text x="1233" y="390" text-anchor="middle" class="body">运行检查</text>
+  <text x="1233" y="430" text-anchor="middle" class="body">给出结论</text>
+
+  <rect x="1400" y="220" width="165" height="235" class="box"/>
+  <text x="1483" y="267" text-anchor="middle" class="role">结果输出</text>
+  <text x="1483" y="325" text-anchor="middle" class="body">通过 / 退回</text>
+  <text x="1483" y="365" text-anchor="middle" class="body">交付说明</text>
+  <text x="1483" y="405" text-anchor="middle" class="body">继续迭代</text>
+
+  <!-- Main arrows -->
+  <path d="M240 338 H300" class="flow"/>
+  <path d="M515 338 H575" class="flow"/>
+  <path d="M790 338 H850" class="flow"/>
+  <path d="M1065 338 H1125" class="flow"/>
+  <path d="M1340 338 H1400" class="flow"/>
+
+  <!-- Feedback loops -->
+  <path d="M1233 455 C1233 520 1110 525 1045 525 C980 525 958 510 958 455" class="flow"/>
+  <text x="1095" y="510" text-anchor="middle" class="small">不通过 → 返工</text>
+
+  <path d="M1233 455 C1233 575 1000 585 820 585 C725 585 683 555 683 455" class="flow"/>
+  <text x="960" y="570" text-anchor="middle" class="small">需要重规划</text>
+
+  <!-- Support layer -->
+  <path d="M360 655 V615 H1230 V655" class="dash"/>
+  <path d="M800 655 V615" class="dash"/>
+
+  <rect x="220" y="655" width="280" height="70" class="supportBox"/>
+  <text x="360" y="698" text-anchor="middle" class="support">任务状态 / 证据</text>
+
+  <rect x="660" y="655" width="280" height="70" class="supportBox"/>
+  <text x="800" y="698" text-anchor="middle" class="support">项目仓库 / Workspace</text>
+
+  <rect x="1090" y="655" width="280" height="70" class="supportBox"/>
+  <text x="1230" y="698" text-anchor="middle" class="support">检查与测试</text>
+
+  <rect x="50" y="760" width="1500" height="45" rx="10" fill="#f1f5f9"/>
+  <text x="800" y="790" text-anchor="middle" class="footer">核心闭环：需求进入 → 计划 → 实现 → 评审 → 输出；未通过则回退继续迭代。</text>
+</svg>

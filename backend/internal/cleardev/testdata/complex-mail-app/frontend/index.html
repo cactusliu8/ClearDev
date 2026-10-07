@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>邮件名单</title>
+    <link rel="stylesheet" href="/frontend/app.css" />
+  </head>
+  <body>
+    <main>
+      <h1>邮件名单</h1>
+      <form id="import-form">
+        <label for="emails">导入邮箱，每行一个</label>
+        <textarea id="emails" name="emails" rows="10"></textarea>
+        <button type="submit">导入</button>
+      </form>
+      <section aria-label="导入结果">
+        <p>接受：<span data-testid="accepted-count">0</span></p>
+        <p>拒绝：<span data-testid="rejected-count">0</span></p>
+        <p>重复：<span data-testid="duplicate-count">0</span></p>
+      </section>
+    </main>
+    <script type="module" src="/frontend/app.js"></script>
+  </body>
+</html>

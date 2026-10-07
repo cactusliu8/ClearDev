@@ -1,0 +1,17 @@
+{
+  "name": "complex-mail-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test:template": "node --test test/template.test.js test/isolation.test.js",
+    "test:backend": "node --experimental-sqlite --experimental-strip-types --test test/backend.test.js",
+    "test:database": "node --experimental-sqlite --experimental-strip-types --test test/database.test.js",
+    "test:api": "node --experimental-sqlite --experimental-strip-types --test --test-concurrency=1 test/api.test.js",
+    "test:frontend": "node --experimental-sqlite --experimental-strip-types --test --test-concurrency=1 test/frontend.test.js",
+    "test": "node --experimental-sqlite --experimental-strip-types --test --test-concurrency=1 test/backend.test.js test/database.test.js test/api.test.js test/frontend.test.js test/app.test.js",
+    "check:migrations": "node scripts/check-migrations.mjs",
+    "start": "node --experimental-sqlite --experimental-strip-types backend/src/server.ts"
+  }
+}

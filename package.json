@@ -1,0 +1,27 @@
+{
+	"name": "agent-orchestrator",
+	"private": true,
+	"scripts": {
+		"cleardev:demo": "node ./scripts/cleardev-demo.mjs",
+		"check:quick": "node ./scripts/check.mjs quick",
+		"check:backend": "node ./scripts/check.mjs backend",
+		"check:backend:test": "node ./scripts/check.mjs backend-test",
+		"check:backend:race": "node ./scripts/check.mjs backend-race",
+		"check:backend:lint": "node ./scripts/check.mjs backend-lint",
+		"check:frontend": "node ./scripts/check.mjs frontend",
+		"check:api": "node ./scripts/check.mjs api",
+		"check:all": "node ./scripts/check.mjs all",
+		"lint": "node ./scripts/check.mjs lint",
+		"frontend:typecheck": "npm --prefix frontend run typecheck",
+		"cloud:check": "npm --prefix packages/cloud-client run generate && git diff --exit-code -- packages/cloud-client/src/schema.ts && npm --prefix packages/cloud-client run typecheck && npm --prefix packages/cloud-client test && npm --prefix packages/cloud-client run build",
+		"product-ui:check": "npm --prefix packages/product-ui run typecheck && npm --prefix packages/product-ui test && npm --prefix packages/product-ui run build",
+		"shared:check": "npm run cloud:check && npm run product-ui:check",
+		"sqlc": "node ./scripts/sqlc.mjs",
+		"api:spec": "cd backend && go generate ./internal/httpd/apispec/...",
+		"api:ts": "openapi-typescript backend/internal/httpd/apispec/openapi.yaml -o frontend/src/api/schema.ts",
+		"api": "npm run api:spec && npm run api:ts"
+	},
+	"devDependencies": {
+		"openapi-typescript": "7.4.4"
+	}
+}

@@ -1,0 +1,8 @@
+{
+  "name": "complex-email-list",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  }
+}

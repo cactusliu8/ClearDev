@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Local contacts — ClearDev baseline</title>
+  <link rel="stylesheet" href="/frontend/app.css">
+  <script type="module" src="/frontend/app.js"></script>
+</head>
+<body>
+  <main>
+    <h1>Local contacts</h1>
+    <p>Import one email address per line. Contacts stay on this machine.</p>
+    <form id="import-form">
+      <label for="emails">Email addresses</label>
+      <textarea id="emails" rows="7" placeholder="person@example.com" required></textarea>
+      <button id="import-submit" type="submit">Import contacts</button>
+    </form>
+    <p id="status" role="status" aria-live="polite"></p>
+    <section aria-label="Last import">
+      <p>Accepted: <span data-testid="accepted-count">0</span></p>
+      <p>Rejected: <span data-testid="rejected-count">0</span></p>
+      <p>Duplicates: <span data-testid="duplicate-count">0</span></p>
+    </section>
+    <h2>Contacts</h2>
+    <ul id="contacts" aria-label="Contacts"></ul>
+  </main>
+</body>
+</html>

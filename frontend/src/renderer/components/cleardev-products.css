@@ -1,0 +1,209 @@
+/* AO theme tokens keep the product discussion consistent with its host shell. */
+.cleardev-product-card {
+	gap: 0;
+	overflow: hidden;
+}
+
+.cleardev-product-heading {
+	padding-bottom: 16px;
+	border-bottom: 1px solid var(--border);
+}
+
+.cleardev-product-card > [data-slot="card-content"] {
+	padding-top: 16px;
+}
+
+.cleardev-product-create {
+	gap: 0;
+}
+
+.cleardev-product-create > [data-slot="card-content"]:not([hidden]) {
+	padding-top: 16px;
+}
+
+.cleardev-disclosure {
+	min-width: 0;
+	border-radius: 6px;
+	font-size: 12px;
+}
+
+.cleardev-disclosure > summary {
+	padding: 8px 10px;
+	cursor: pointer;
+	color: var(--muted-foreground);
+	border-radius: 6px;
+	transition: background-color 100ms, color 100ms;
+}
+
+.cleardev-disclosure > summary:hover,
+.cleardev-disclosure > summary:focus-visible {
+	background: var(--muted);
+	color: var(--foreground);
+}
+
+.cleardev-disclosure[open] > summary {
+	color: var(--foreground);
+}
+
+.cleardev-disclosure > :not(summary) {
+	margin: 8px 10px 12px;
+	overflow-wrap: anywhere;
+}
+
+.cleardev-project-source {
+	background: var(--muted);
+}
+
+.cleardev-steward-proposal {
+	padding: 12px 14px;
+	border-left: 2px solid var(--color-status-working);
+	background: color-mix(in srgb, var(--color-status-working) 5%, transparent);
+}
+
+.cleardev-feature-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+	gap: 8px;
+}
+
+.cleardev-feature-grid > li {
+	display: flex;
+	gap: 8px;
+	padding: 10px 12px;
+	border: 1px solid var(--border);
+	border-radius: 6px;
+}
+
+.cleardev-stage,
+.cleardev-action {
+	--steward-tone: var(--color-status-working);
+}
+
+.cleardev-stage[data-tone="success"],
+.cleardev-action[data-tone="success"] {
+	--steward-tone: var(--color-success);
+}
+
+.cleardev-stage[data-tone="warning"],
+.cleardev-action[data-tone="warning"] {
+	--steward-tone: var(--color-warning);
+}
+
+.cleardev-stage[data-tone="error"],
+.cleardev-action[data-tone="error"] {
+	--steward-tone: var(--destructive);
+}
+
+.cleardev-stage[data-tone="neutral"],
+.cleardev-action[data-tone="neutral"] {
+	--steward-tone: var(--muted-foreground);
+}
+
+.cleardev-stage {
+	padding: 14px;
+	border: 1px solid var(--border);
+	border-left: 3px solid var(--steward-tone);
+	border-radius: 6px;
+}
+
+.cleardev-action {
+	white-space: normal;
+	height: auto;
+	min-height: var(--size-control-form, 32px);
+	padding-top: 6px;
+	padding-bottom: 6px;
+	color: var(--steward-tone);
+	border-color: color-mix(in srgb, var(--steward-tone) 35%, var(--border));
+	background: color-mix(in srgb, var(--steward-tone) 6%, transparent);
+}
+
+.cleardev-action:hover:not(:disabled) {
+	background: color-mix(in srgb, var(--steward-tone) 12%, transparent);
+}
+
+.cleardev-discussion-form {
+	padding-top: 12px;
+	border-top: 1px solid var(--border);
+}
+
+.cleardev-choice {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 10px 12px;
+	border: 1px solid var(--border);
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+.cleardev-choice input {
+	accent-color: var(--color-status-working);
+}
+
+.cleardev-choice[data-selected="true"] {
+	border-color: color-mix(in srgb, var(--color-status-working) 45%, var(--border));
+	background: color-mix(in srgb, var(--color-status-working) 7%, transparent);
+}
+
+.cleardev-choices:disabled .cleardev-choice {
+	cursor: default;
+	opacity: .65;
+}
+
+.cleardev-attention,
+.cleardev-products [role="alert"] {
+	padding: 10px 12px;
+	border-left: 2px solid var(--color-warning);
+	border-radius: 4px;
+	background: color-mix(in srgb, var(--color-warning) 7%, transparent);
+	font-size: 13px;
+}
+
+.cleardev-products [role="alert"] {
+	border-left-color: var(--destructive);
+	background: color-mix(in srgb, var(--destructive) 6%, transparent);
+}
+
+.cleardev-primary {
+	--primary: var(--color-status-working);
+	white-space: normal;
+	height: auto;
+	min-height: 32px;
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
+
+.cleardev-product-card [data-slot="badge"][data-tone="accent"] {
+	color: var(--color-status-working);
+	background: color-mix(in srgb, var(--color-status-working) 9%, transparent);
+	border-color: color-mix(in srgb, var(--color-status-working) 25%, transparent);
+}
+
+.cleardev-choices {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+}
+
+.cleardev-choices > :not(.cleardev-choice) {
+	grid-column: 1 / -1;
+}
+
+.cleardev-products textarea,
+.cleardev-products section[class~="border"] {
+	border-color: var(--border);
+}
+
+.cleardev-products textarea {
+	background: var(--background);
+	padding: 10px 12px;
+}
+
+.cleardev-products textarea:focus-visible {
+	outline: 2px solid var(--color-status-working);
+	outline-offset: 2px;
+}
+
+.cleardev-stage > .cleardev-disclosure > summary {
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
